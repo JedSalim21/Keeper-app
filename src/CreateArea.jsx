@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 
 function CreateArea(props) {
   const [note, setNote] = useState({
@@ -41,7 +42,9 @@ function CreateArea(props) {
           rows="3"
           value={note.content}
         />
-        <button type="submit">Add</button>
+        <button type="submit">
+          <AddOutlinedIcon />
+        </button>
       </form>
     </div>
   );
