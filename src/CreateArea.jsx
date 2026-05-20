@@ -15,9 +15,19 @@ function CreateArea(props) {
       };
     });
   }
+
+  function submitNote(e) {
+    e.preventDefault();
+    props.onAdd(note);
+    setNote({
+      title: "",
+      content: "",
+    });
+  }
+
   return (
     <div>
-      <form>
+      <form onSubmit={submitNote}>
         <input
           onChange={handleChange}
           name="title"
@@ -31,7 +41,7 @@ function CreateArea(props) {
           rows="3"
           value={note.content}
         />
-        <button>Add</button>
+        <button type="submit">Add</button>
       </form>
     </div>
   );
