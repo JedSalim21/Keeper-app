@@ -212,6 +212,8 @@ form button:hover {
 /* FOOTER */
 
 footer {
+  clear: both;
+
   width: 100%;
 
   text-align: center;
