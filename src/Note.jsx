@@ -4,9 +4,13 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 function Note(props) {
   return (
     <div className="note">
-      <h1>Title</h1>
-      <p>Content</p>
-      <button>
+      <h1>{props.title}</h1>
+      <p>{props.content}</p>
+      <button
+        onClick={() => {
+          props.onDelete(props.id);
+        }}
+      >
         <DeleteOutlinedIcon />
       </button>
     </div>
