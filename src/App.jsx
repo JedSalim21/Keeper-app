@@ -4,9 +4,14 @@ import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
 import { supabase } from "./supabase/client";
+import SecurityUpdateGoodOutlinedIcon from "@mui/icons-material/SecurityUpdateGoodOutlined";
 
 function App() {
   const [notes, setNotes] = useState([]);
+
+  const [editingNote, setEditingNote] = useState(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
 
   useEffect(() => {
     fetchNotes();
@@ -35,6 +40,12 @@ function App() {
     }
   }
 
+  function handleEdit(note) {
+    setEditingNote(note.id);
+    setEditTitle(note.title);
+    setEditContent(note.content);
+  }
+
   async function deleteNote(id) {
     const { data, error } = await supabase.from("notes").delete().eq("id", id);
 
@@ -45,11 +56,48 @@ function App() {
     }
   }
 
+  async function handleUpdate(id) {
+    const { data, error } = await supabase
+      .from("notes")
+      .update({
+        title: editTitle,
+        content: editContent,
+      })
+      .eq("id", id);
+
+    if (error) {
+      console.log(error);
+    } else {
+      setEditingNote(null);
+      fetchNotes();
+    }
+  }
+
   return (
     <div>
       <Header />
       <CreateArea onAdd={addNote} />
       {notes.map((noteItem) => {
+        if (editingNote === noteItem.id) {
+          return (
+            <div key={noteItem.id} className="note edit-box">
+              <input
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+              />
+
+              <textarea
+                value={editContent}
+                onChange={(e) => setEditContent(e.target.value)}
+              />
+
+              <button onClick={() => handleUpdate(noteItem.id)}>
+                <SecurityUpdateGoodOutlinedIcon />
+              </button>
+            </div>
+          );
+        }
+
         return (
           <Note
             key={noteItem.id}
@@ -57,6 +105,8 @@ function App() {
             title={noteItem.title}
             content={noteItem.content}
             onDelete={deleteNote}
+            onEdit={handleEdit}
+            note={noteItem}
           />
         );
       })}
