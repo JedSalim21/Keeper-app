@@ -240,6 +240,7 @@ footer p {
 
 .edit-box input,
 .edit-box textarea {
+  font-family: poppins;
   width: 100%;
   border: none;
   outline: none;
@@ -250,6 +251,7 @@ footer p {
 }
 
 .edit-box textarea {
+  font-family: poppins;
   resize: none;
 }
 
